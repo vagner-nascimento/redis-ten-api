@@ -24,16 +24,16 @@ WARNING: Without Content-Type header some commands doesn't work
 - curl -X PUT -H "Content-Type: text/plain" http://localhost:8080/incr/{key}
 
 # ZADD
-- curl -X PUT -H "Content-Type: text/plain" -d "524.89 RazorBlade 845 KevinBacon 999 Gandhi" http://localhost:8080/zadd/players
+- curl -X PUT -H "Content-Type: text/plain" -d "524.89 RazorBlade 845 KevinBacon 999 Gandhi" http://localhost:8080/zadd/{players}
 
 # ZCARD
-- curl -X GET -H "Content-Type: text/plain" http://localhost:8080/zcard/players
+- curl -X GET -H "Content-Type: text/plain" http://localhost:8080/zcard/{players}
 
 # ZRANK
-- curl -X GET -H "Content-Type: text/plain" http://localhost:8080/zrank/players/KevinBacon
+- curl -X GET -H "Content-Type: text/plain" http://localhost:8080/zrank/{players}/{KevinBacon}
 
 # ZRANGE
-- curl -X GET -H "Content-Type: text/plain" http://localhost:8080/zrange/players/0/3
+- curl -X GET -H "Content-Type: text/plain" http://localhost:8080/zrange/players/{0}/{3}
 
 # Next steps
 - Dockerize it all
