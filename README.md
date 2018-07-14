@@ -34,3 +34,7 @@ WARNING: Without Content-Type header some commands doesn't work
 
 # ZRANGE
 - curl -X GET -H "Content-Type: text/plain" http://localhost:8080/zrange/players/0/3
+
+# Next steps
+- Dockerize it all
+- Implement automatized unit and integration tests.
