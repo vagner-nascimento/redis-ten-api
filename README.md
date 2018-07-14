@@ -4,7 +4,8 @@ A HTTP rest API to publish 10 most commons Redis commands
 # Installation
 Edit your parameters in "install.sh" and execute it to update and install libraries and run the API with default configurations of Spring Boot
 
-# Commands to call using curl (without Content-Type header some commands doesn't work)
+# Commands to call using curl
+WARNING: Without Content-Type header some commands doesn't work
 # SET and SET EX seconds
 - curl -X PUT -H "Content-Type: text/plain" -d "Eggs, cheese, meat, beer and wine" http://localhost:8080/food
 - curl -X PUT -H "Content-Type: text/plain" -d "Eggs, cheese, meat, beer and wine" http://localhost:8080/food-tmp/10
