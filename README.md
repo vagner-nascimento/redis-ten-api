@@ -1,5 +1,5 @@
 # Redis Ten API
-A HTTP rest API to publish 10 most commons Redis commands
+A HTTP rest API (implemented with Spring Boot) to publish redis commands
 
 # Installation
 Edit your parameters in "install.sh" and execute it to update and install libraries and run the API with default configurations of Spring Boot
