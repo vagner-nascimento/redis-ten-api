@@ -1,6 +1,7 @@
 package com.vn.controllers;
 
 import com.vn.infrastructure.cache.redis.RedisClientTen;
+import com.vn.util.MapEntry;
 import com.vn.util.TryParse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -117,29 +119,19 @@ public class RedisController {
         }
 
         String[] values = value.split("\\s");
-        Map.Entry<Double, Object>[] scoredValues = new Map.Entry[values.length];
+        List<Map.Entry<Double, Object>> scoredValues = new ArrayList<>();
         Double score = null;
 
         for (int i = 0; i < values.length; i++) {
             if (i % 2 == 0) { // even are scores and odd values
-                score = TryParse.toDouble(values[i].replace(",", ""));
+                score = TryParse.toDouble(values[i].replace(",", "."));
 
                 if (score == null)
-                    return new ResponseEntity<>("Invalid score informed", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>("Invalid score informed: " + values[i], HttpStatus.BAD_REQUEST);
             } else {
-                scoredValues[i] = new AbstractMap.SimpleEntry(score, values[i].toString());
-                System.out.println("score: " + score);
-                System.out.println("value: " + values[i]);
+                scoredValues.add(new MapEntry<>(score, values[i]));
             }
         }
-
-        //TODO ver porque esta caceta não está preenchendo direto o array.
-        for (Map.Entry<Double, Object> e : scoredValues) {
-            System.out.println("score: " + e.getKey());
-            System.out.println("value: " + e.getValue());
-        }
-
-        System.out.println("key: " + key);
 
         try (RedisClientTen redis = new RedisClientTen()) {
             return new ResponseEntity<>(String.valueOf(redis.ZAdd(key, scoredValues)), HttpStatus.CREATED);
@@ -181,7 +173,8 @@ public class RedisController {
     @ResponseBody
     public ResponseEntity<String> Zrange(@PathVariable("key") Object key,
                                          @PathVariable("start") Long start,
-                                         @PathVariable("start") Long stop) {
+                                         @PathVariable("stop") Long stop) {
+
         try (RedisClientTen redis = new RedisClientTen()) {
             return new ResponseEntity<>(String.valueOf(redis.ZRange(key, start, stop, false)), HttpStatus.OK);
         } catch (Exception e) {
